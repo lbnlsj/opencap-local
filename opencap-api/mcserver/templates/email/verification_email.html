@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<html>
+    <head></head>
+    <body>
+        <img src="%s" alt="OpenCap Logo" width="305" height="77"/>
+        <hr>
+        </br>
+        </br>
+        </br>
+        <h2>{% translate 'verification_code_email_greeting' %}</h2>
+        <p>{% translate 'verification_code_email_your_code' %}</p>
+        </br>
+        </br>
+        <b>
+            %s
+        </b>
+        </br>
+        </br>
+        <p>{% translate 'verification_code_email_copy_paste' %}</p>
+        </br>
+        </br>
+        <p>{% translate 'verification_code_email_ignore' %}</p>
+        </br>
+        </br>
+        <p>{% translate 'verification_code_email_team' %}</p>
+    </body>
+</html>
