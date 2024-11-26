@@ -8,6 +8,7 @@ botocore==1.19.35
 build==0.10.0
 cached-property==1.5.2
 celery==5.2.7
+psycopg2-binary==2.9.9
 celery-redbeat==2.0.0
 certifi==2022.12.7
 charset-normalizer==3.0.1
