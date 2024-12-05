@@ -2,6 +2,10 @@
 ## opencap-viewer
 ### 使用node 16版本，并且chartjs-plugin-zoom如果安装失败的话请安装1.2.1版本的这个库
 ### nrm 可以管理源
+### pm2管理后台
+```shell
+pm2 start npm --name "opencap-viewer" -- run serve
+```
 
 ## opencap-api
 ### ！需先安装postgresql

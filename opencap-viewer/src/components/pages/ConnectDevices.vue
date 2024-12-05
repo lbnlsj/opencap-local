@@ -11,7 +11,7 @@
 
         <div class="d-flex step-1 align-center flex-wrap">
           <div class="d-flex flex-column flex-grow-1 justify-space-between my-1">
-            <h1 class="my-4">1. Open the OpenCap app on your phone</h1>
+            <h1 class="my-4">1. Open the BioFlex app on your phone</h1>
             <h1 class="my-4">2. Scan the QR code</h1>
             <h1 class="my-4">3. Mount your phone vertically or horizontally (unlock portrait orientation) on a tripod</h1>
             <h1 class="my-4">4. Position the tripod and camera to capture the volume of interest</h1>

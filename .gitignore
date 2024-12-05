@@ -1,7 +1,7 @@
 .DS_Store
 opencap-viewer/node_modules
 /dist
-
+opencap-api/media
 
 # local env files
 #.env.local

@@ -1,4 +1,12 @@
 module.exports = {
+    devServer: {
+        proxy: {
+            '/media': {
+                target: 'http://localhost:8000',
+                changeOrigin: true
+            }
+        }
+    },
     chainWebpack: config => {
         config.module
             .rule('vue')
