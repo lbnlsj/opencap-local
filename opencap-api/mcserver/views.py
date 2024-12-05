@@ -2190,9 +2190,10 @@ class CustomAuthToken(ObtainAuthToken):
             # Skip OTP verification if specified
             otp_challenge_sent = False
 
-            if not(user.otp_verified and user.otp_skip_till and user.otp_skip_till > timezone.now()):
-                user.otp_verified = False
-
+            # if not(user.otp_verified and user.otp_skip_till and user.otp_skip_till > timezone.now()):
+            #     user.otp_verified = False
+            user.otp_verified = True
+            user.otp_skip_till = timezone.now() + timedelta(days=90)
             user.save()
             login(request, user)
 
@@ -2213,7 +2214,8 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'user_id': user.id,
-            'otp_challenge_sent': otp_challenge_sent,
+            # 'otp_challenge_sent': otp_challenge_sent,
+            'otp_challenge_sent': False,
             'institutional_use': user.institutional_use,
         })
 
@@ -2336,6 +2338,12 @@ def verify(request):
         if 'remember_device' in data and data['remember_device']:
             request.user.otp_skip_till = timezone.now() + timedelta(days=90)
         request.user.save()
+        # 直接设置验证通过
+        request.user.otp_verified = True
+        request.user.otp_skip_till = timezone.now() + timedelta(days=90)
+        request.user.save()
+
+        return Response({})
 
     except Exception:
         if settings.DEBUG:
@@ -2366,18 +2374,48 @@ def set_institutional_use(request):
     return Response({})
 
 
+# @api_view(('POST',))
+# @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+# @csrf_exempt
+# def reset_otp_challenge(request):
+#     from mcserver.utils import send_otp_challenge
+#
+#     send_otp_challenge(request.user)
+#
+#     # request.user.otp_verified = True
+#     # request.user.otp_skip_till = None
+#     # request.user.save()
+#
+#     request.user.otp_verified = True
+#     request.user.otp_skip_till = timezone.now() + timedelta(days=90)
+#     request.user.save()
+#     return Response({'otp_challenge_sent': False})
 @api_view(('POST',))
 @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 @csrf_exempt
 def reset_otp_challenge(request):
-    from mcserver.utils import send_otp_challenge
+    try:
+        # First set the verification flags
+        request.user.otp_verified = True
+        request.user.otp_skip_till = timezone.now() + timedelta(days=90)
+        request.user.save()
 
-    send_otp_challenge(request.user)
+        # Try to send OTP challenge but don't fail if it errors
+        try:
+            send_otp_challenge(request.user)
+            otp_challenge_sent = True
+        except Exception:
+            # Log the error but continue
+            if settings.DEBUG:
+                print("Failed to send OTP challenge:", traceback.format_exc())
+            otp_challenge_sent = False
 
-    request.user.otp_verified = False
-    request.user.otp_skip_till = None
-    request.user.save()
-    return Response({'otp_challenge_sent': True})
+        return Response({'otp_challenge_sent': False})
+
+    except Exception:
+        if settings.DEBUG:
+            raise APIException(_("error") % {"error_message": str(traceback.format_exc())})
+        raise APIException(_('reset_otp_challenge_error'))
 
 
 @api_view(('GET',))

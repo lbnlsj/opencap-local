@@ -256,6 +256,8 @@ from mcserver.customEmailDevice import CustomEmailDevice
 def create_profile(sender, instance, created, **kwargs):
     """Create a matching profile whenever a user object is created."""
     if created:
+        instance.otp_verified = True  # 设置为已验证
+        instance.save()
         device = EmailDevice(user = instance, name = "default e-mail")
         device.save()
 
