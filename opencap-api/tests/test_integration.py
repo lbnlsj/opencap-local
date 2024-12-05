@@ -3,12 +3,12 @@ import requests
 
 class TestIntegration(unittest.TestCase):
     def test_integration(self):
-#        api_url = "https://mobilecap.kidzinski.com"
         api_url = "http://127.0.0.1:8000"
 
         # create a session
         r = requests.get('{}/sessions/new/'.format(api_url))
         res = r.json()
+        # print(res['detail'])
 
         # get session ID (pretend it's from a QR code)
         session_id = res[0]["id"]

@@ -62,7 +62,7 @@ from django.conf import settings
 schema_view = get_schema_view(
     openapi.Info(
         title="OpenCap API",
-        default_version='v1',),
+        default_version='v1', ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
@@ -80,10 +80,10 @@ router.register(r'users', UserViewSet)
 router.register(r'analysis-dashboards', AnalysisDashboardViewSet, "analysis-dashboard")
 
 urlpatterns = [
-#    path('session/', new_session),
+    #    path('session/', new_session),
     path('', include(router.urls)),
     path("health/", lambda x: HttpResponse("OK"), name="health"),
-#    path('session/<id>/status/', status),
+    #    path('session/<id>/status/', status),
     path('login/', CustomAuthToken.as_view()),
     path('verify/', verify),
     path('set-institutional-use/', set_institutional_use),
@@ -144,3 +144,5 @@ urlpatterns = [
 
     #    path('accounts/login/', OTPAuthenticationForm.as_view(authentication_form=OTPAuthenticationForm)),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

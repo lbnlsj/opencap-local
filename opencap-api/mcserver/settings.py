@@ -179,7 +179,8 @@ AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_OPENCAP_PUBLIC_BUCKET = config("AWS_S3_OPENCAP_PUBLIC_BUCKET", default="mc-opencap-public")
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'  # 这里替换成本地存储
 AWS_S3_REGION_NAME = config("REGION", default="us-west-2")
 
 AWS_S3_ENDPOINT_URL = config('AWS_S3_ENDPOINT_URL', default=None)
@@ -191,6 +192,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 #MEDIA_LOCATION = 'media'
 #MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+MEDIA_URL = '/media/'
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ARCHIVES_ROOT = config('ARCHIVES_ROOT', default=os.path.join(MEDIA_ROOT, 'archives'))

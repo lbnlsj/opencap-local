@@ -4,8 +4,8 @@ opencap-viewer/node_modules
 
 
 # local env files
-.env.local
-.env.*.local
+#.env.local
+#.env.*.local
 
 # Log files
 npm-debug.log*
@@ -28,5 +28,4 @@ package-lock.json
 
 *~
 
-.env
 .idea
