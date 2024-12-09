@@ -2175,9 +2175,13 @@ class GetUserInfo(APIView):
         return Response(user_info)
 
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+@method_decorator(csrf_exempt, name='dispatch')  # 关键是要用 method_decorator 且指定 name='dispatch'
 class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
+        print(f"Request method: {request.method}")  # 打印请求方法
         try:
             serializer = self.serializer_class(data=request.data,
                                                context={'request': request})

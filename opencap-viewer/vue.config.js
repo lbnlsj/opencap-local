@@ -4,6 +4,17 @@ module.exports = {
             '/media': {
                 target: 'http://localhost:8000',
                 changeOrigin: true
+            },
+            '/api': {
+                target: 'http://localhost:8000',
+                changeOrigin: false,
+                secure: false,
+                pathRewrite: {
+                    '^/api': ''
+                },
+                // 添加以下配置
+                withCredentials: true,
+                cookieDomainRewrite: 'localhost'
             }
         }
     },
