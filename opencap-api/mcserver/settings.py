@@ -33,6 +33,24 @@ HOST_URL = "{}://{}".format(PROTOCOL, HOST)
 
 ALLOWED_HOSTS = [HOST,"*"]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8080",
+    "http://localhost:8080",
+]
+
+# 如果需要允许特定headers:
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition

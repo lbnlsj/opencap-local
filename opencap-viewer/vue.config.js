@@ -5,16 +5,22 @@ module.exports = {
                 target: 'http://localhost:8000',
                 changeOrigin: true
             },
-            '/api': {
-                target: 'http://localhost:8000',
-                changeOrigin: false,
-                secure: false,
+            '^/api': {
+                target: 'http://127.0.0.1:8000',
+                changeOrigin: true,
+                withCredentials: true,  // 添加这一行来保留 cookie
+                cookieDomainRewrite: 'localhost', // 重写cookie域名
+                cookiePathRewrite: '/',  // 重写cookie路径
                 pathRewrite: {
                     '^/api': ''
                 },
-                // 添加以下配置
-                withCredentials: true,
-                cookieDomainRewrite: 'localhost'
+                headers: {
+                    'asd':'xcz',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                    'Access-Control-Allow-Credentials': 'true'  // 允许携带凭证
+                }
             }
         }
     },
