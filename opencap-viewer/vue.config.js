@@ -12,7 +12,8 @@ module.exports = {
                 cookieDomainRewrite: 'localhost', // 重写cookie域名
                 cookiePathRewrite: '/',  // 重写cookie路径
                 pathRewrite: {
-                    '^/api': ''
+                    '^/api': '',
+                    '^/[0-9a-f-]+/api': '' // 移除 UUID/api 这部分
                 },
                 headers: {
                     'asd':'xcz',
