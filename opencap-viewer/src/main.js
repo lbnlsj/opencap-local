@@ -76,6 +76,11 @@ Vue.config.productionTip = false
 
 axios.defaults.baseURL = process.env.VUE_APP_API_SERVER //"https://api.opencap.ai/"
 axios.defaults.withCredentials = true
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,HEAD,PUT,PATCH,POST,DELETE'
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+axios.defaults.headers.common['Access-Control-Allow-Credentials'] = 'true'
+axios.defaults.headers.common['Referer'] = 'http://localhost:8000'
 // axios.defaults.baseURL = 'api' //"https://api.opencap.ai/"
 // axios.defaults.baseURL = "http://34.219.192.107/"
 // axios.defaults.baseURL = "http://localhost:8000/"

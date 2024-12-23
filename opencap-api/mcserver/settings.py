@@ -17,7 +17,6 @@ import os.path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -31,11 +30,20 @@ HOST = config("HOST", "127.0.0.1")
 PROTOCOL = config("PROTOCOL", "http")
 HOST_URL = "{}://{}".format(PROTOCOL, HOST)
 
-ALLOWED_HOSTS = [HOST,"*"]
+# ALLOWED_HOSTS = [HOST, "*"]
+ALLOWED_HOSTS = ["*"]
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:8080",
+]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
 
 # 如果需要允许特定headers:
@@ -52,6 +60,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -82,31 +91,45 @@ SWAGGER_SETTINGS = {
     'LOGIN_URL': '/admin/',
 }
 
+# REST_FRAMEWORK = {
+#     # 'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+#     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#     # 'PAGE_SIZE': 10,
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         # 'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+# }
+# Set authentication and permissions
 REST_FRAMEWORK = {
-    # 'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    # 'PAGE_SIZE': 10,
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    # Allow any user to access the API
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
     ],
 }
+
 
 CSRF_ENABLED = False
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django_otp.middleware.OTPMiddleware',    
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -131,7 +154,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mcserver.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -145,14 +167,13 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config("DB_NAME",default="opencap"),
+        'NAME': config("DB_NAME", default="opencap"),
         'USER': config("DB_USER"),
         'PASSWORD': config("DB_PASS"),
         'HOST': config("DB_HOST"),
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -172,7 +193,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -185,7 +205,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -205,16 +224,16 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'  # 这里�
 AWS_S3_REGION_NAME = config("REGION", default="us-west-2")
 
 AWS_S3_ENDPOINT_URL = config('AWS_S3_ENDPOINT_URL', default=None)
-#AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+# AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 
 # s3 static settings
 # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-#MEDIA_LOCATION = 'media'
-#MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+# MEDIA_LOCATION = 'media'
+# MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 MEDIA_URL = '/media/'
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ARCHIVES_ROOT = config('ARCHIVES_ROOT', default=os.path.join(MEDIA_ROOT, 'archives'))
 
@@ -242,7 +261,6 @@ OTP_EMAIL_TOKEN_VALIDITY = int(timedelta(days=90).total_seconds())
 OTP_EMAIL_BODY_TEMPLATE_PATH = 'email/verification_email.html'
 OTP_EMAIL_SUBJECT = ""
 OTP_EMAIL_BODY_TEMPLATE = ""
-
 
 # Sentry support
 
@@ -324,7 +342,7 @@ CELERY_BEAT_SCHEDULE = {
     # },
 }
 
-GRAPH_MODELS ={
+GRAPH_MODELS = {
     'all_applications': True,
     'graph_models': True,
 }
