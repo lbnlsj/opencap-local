@@ -26,9 +26,10 @@ SECRET_KEY = 'iw8ctf3)6e-6e#$&eoou-sqawdm4p(1+*#8tsdqy+6+tx=nlt$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-HOST = config("HOST", "127.0.0.1")
+HOST = config("HOST", "192.168.3.69:8000")
 PROTOCOL = config("PROTOCOL", "http")
 HOST_URL = "{}://{}".format(PROTOCOL, HOST)
+# HOST_URL = "{}://{}".format(PROTOCOL, "192.168.3.69")
 
 # ALLOWED_HOSTS = [HOST, "*"]
 ALLOWED_HOSTS = ["*"]

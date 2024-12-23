@@ -535,6 +535,7 @@ class SessionViewSet(viewsets.ModelViewSet):
             session.save()
 
             img = qrcode.make("{}/sessions/{}/status/".format(settings.HOST_URL, session.id))
+            print(settings.HOST_URL)
             print(session.id)
 
             # Hack for local builds on windows
