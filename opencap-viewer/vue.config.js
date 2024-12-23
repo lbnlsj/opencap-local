@@ -1,29 +1,42 @@
 module.exports = {
     devServer: {
         proxy: {
+            '/api': {
+                target: 'http://127.0.0.1:8000',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            },
             '/media': {
                 target: 'http://localhost:8000',
                 changeOrigin: true
             },
-            '^/api': {
-                target: 'http://127.0.0.1:8000',
-                changeOrigin: true,
-                withCredentials: true,  // 添加这一行来保留 cookie
-                cookieDomainRewrite: 'localhost', // 重写cookie域名
-                cookiePathRewrite: '/',  // 重写cookie路径
-                pathRewrite: {
-                    '^/api': '',
-                    '^/[0-9a-f-]+/api': '' // 移除 UUID/api 这部分
-                },
-                headers: {
-                    'asd':'xcz',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                    'Access-Control-Allow-Credentials': 'true'  // 允许携带凭证
-                }
-            }
         }
+        // proxy: {
+        //     '/media': {
+        //         target: 'http://localhost:8000',
+        //         changeOrigin: true
+        //     },
+        //     '^/api': {
+        //         target: 'http://127.0.0.1:8000',
+        //         changeOrigin: true,
+        //         withCredentials: true,  // 添加这一行来保留 cookie
+        //         cookieDomainRewrite: 'localhost', // 重写cookie域名
+        //         cookiePathRewrite: '/',  // 重写cookie路径
+        //         pathRewrite: {
+        //             '^/api': '',
+        //             '^/[0-9a-f-]+/api': '' // 移除 UUID/api 这部分
+        //         },
+        //         headers: {
+        //             'asd':'xcz',
+        //             'Access-Control-Allow-Origin': '*',
+        //             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        //             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        //             'Access-Control-Allow-Credentials': 'true'  // 允许携带凭证
+        //         }
+        //     }
+        // }
     },
     chainWebpack: config => {
         config.module
